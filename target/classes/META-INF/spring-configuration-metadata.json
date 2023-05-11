@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "segment",
+      "type": "com.shadowzlh.lib.domain.DateSegment.SeatMap",
+      "sourceType": "com.shadowzlh.lib.domain.DateSegment.SeatMap"
+    }
+  ],
+  "properties": [
+    {
+      "name": "segment.seat-maps",
+      "type": "java.util.Map<java.lang.String,com.shadowzlh.lib.domain.DateSegment.Area>",
+      "sourceType": "com.shadowzlh.lib.domain.DateSegment.SeatMap"
+    }
+  ],
+  "hints": []
+}

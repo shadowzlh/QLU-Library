@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script  src="../js/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="../../css/simple.css">
+    <title>配置页面</title>
+
+</head>
+<body>
+<div class="container">
+    <div class="seat">
+        <textarea name="seat" cols="40" rows="5" placeholder="请输入座位号,请认真书写,例如: 三楼中走廊:[start,end,step],99,机房:[1,99,3],099 每个区间建议将循环写在前面, 因为循环有更高的优先级" ></textarea>
+    </div>
+    <div class="area">
+        <textarea name="area" cols="40" rows="5" placeholder="请输入区域名称,请认真书写,例如: 三楼中走廊, 机房,"></textarea>
+    </div>
+    <div class="date">
+        <input type="date" placeholder="年/月/日">
+    </div>
+    <div id="null" class="null">
+        <i class=""></i>
+        本按钮为不指定任何区域与位置
+    </div>
+    <div class="submit">
+        提交
+    </div>
+</div>
+</body>
+<script>
+    const $null = $('#null')
+    const $check = $null.children('i')
+    const $seat = $('[name=seat]')
+    const $area = $('[name=area]')
+    const $date = $('.date input')
+
+
+    function init(data) {
+        if (data.date != null) {
+            $date.val(data.date)
+        }
+        if (data.area != null) {
+            $area.val(data.area)
+        }
+        if (data.seat != null) {
+            $seat.val(data.seat)
+        }
+    }
+
+    var chnNumChar = {
+        零:0,
+        一:1,
+        二:2,
+        三:3,
+        四:4,
+        五:5,
+        六:6
+    };
+    // 汉字转阿拉伯数字
+    function ChineseToNumber(chnStr) {
+        var result = "";
+        for(var i = 0; i < chnStr.length; i ++ ) {
+            var num = chnNumChar[chnStr[i]];
+            if(typeof num !== 'undefined') {
+                result += num;
+                continue
+            }
+            result += chnStr[i]
+        }
+        return result
+    }
+    // null 按钮点击
+
+    $null.click(() => {
+        if($check.attr('class') == 'check'){
+            $check.attr('class','')
+            $seat.css('background-color','rgba(240,248,255, 0.5)')
+            $seat.removeAttr('readonly')
+            $area.css('background-color','rgba(240,248,255, 0.5)')
+            $area.removeAttr('readonly')
+
+        } else {
+            $check.attr('class','check')
+            $seat.css('background-color','rgba(128,128,128,0.5)')
+            $seat.attr('readonly','readonly')
+            $area.css('background-color','rgba(128,128,128,0.5)')
+            $area.attr('readonly','readonly')
+        }
+    })
+    // 设置为后天的日期
+    var format = 'yyyy-MM-dd';
+    var twoday = 1000 * 60 * 60 * 24 * 2;
+    var tomorrow = (+(new Date()) + twoday);
+    tomorrow = new Date(tomorrow)
+    $date.val(tomorrow.getFullYear()+ '-' + (tomorrow.getMonth() + 1) + '-' + tomorrow.getDate())
+
+
+    $.ajax({
+        type: "post",
+        url: '/user/list',
+        dataType: 'json',
+        success: (data)=>{
+            if (data.code == '1') {
+                init(data)
+            }
+        },
+        error: ()=>{
+            swal('请求失败')
+        }
+    })
+
+
+    const $submit = $('.submit')
+    // 提交
+    $submit.click(() => {
+        var seat =  $seat.val().replace(/\s+/g,'')
+        var area =  $area.val().replace(/\s+/g,'')
+        area = area.replace(/，/g,',')
+        seat = seat.replace(/，/g,',')
+        area = ChineseToNumber(area)
+        seat = ChineseToNumber(seat)
+        var check = $check.attr('class') === 'check'
+        var date = $date.val()
+        // 判空
+        if(!check && (seat =='' && area == '')) {
+            swal('不要同时为空')
+            return
+        }
+
+
+        // 处理第一个框 座位框
+        var seatObject = {
+            '2楼东':{
+                startNo: 5735,
+                endNo:5750
+            },
+            '2楼西':{
+                startNo: 7863,
+                endNo: 7878
+            },
+            '3楼报刊预览室':{
+                startNo: 5767,
+                endNo: 5910
+            },
+            '4楼东':{
+                startNo: 6115,
+                endNo: 6230
+            },
+            '4楼西':{
+                startNo: 6231,
+                endNo: 6246
+            },
+            '4楼中走廊':{
+                startNo: 6247,
+                endNo: 6326
+            },
+            '3楼东':{
+                startNo: 5911,
+                endNo: 6026
+            },
+            '5楼东':{
+                startNo: 6327,
+                endNo: 6718
+            },
+            '5楼西':{
+                startNo: 6719,
+                endNo: 6862
+            },
+            '6楼西':{
+                startNo: 7319,
+                endNo: 7774
+            },
+            '6楼东':{
+                startNo: 6863,
+                endNo: 7318
+            },
+            '6楼中厅':{
+                startNo: 7775,
+                endNo: 7862
+            },
+            '3楼西':{
+                startNo: 6027,
+                endNo: 6042
+            },
+            '3楼中走廊':{
+                startNo: 6043,
+                endNo: 6114
+            },
+            '机房':{
+                startNo: 8179,
+                endNo: 8277
+            }
+        }
+
+        if(seat != null && seat !== '') {
+            if(seat[seat.length - 1] !=',') seat += ','
+            var seatAreaReg = /((2楼东)|(2楼西)|(3楼报刊预览室)|(3楼报刊预览室)|(4楼东)|(4楼西)|(4楼中走廊)|(3楼东)|(5楼东)|(5楼西)|(6楼西)|(6楼东)|(6楼中厅)|(3楼西)|(3楼中走廊)|(机房)):(([0-9 ,])*(\[\d+,\d+,\d+\])*)*,/g
+            if (seat.replace(seatAreaReg,'') != '') {
+                swal('填写有错,请重新填写')
+                return;
+            }
+            var seatArea = seat.match(seatAreaReg)
+
+            // 匹配完的样子
+            /**
+             *  机房:1231231,123,
+             3楼东:86,345,
+             4楼中走廊: [1,2,2],
+             3楼中走廊:001,002,[1,2,3],
+             *
+             */
+                // 座位号集合: seatSet
+            var seatSet = new Set()
+            var reg = /\[\d+,\d+,\d+\]/g;
+            for(var i = 0; i < seatArea.length; i ++) {
+                var areaName = seatArea[i].substr(0,seatArea[i].indexOf(':'))
+                var simple = seatArea[i]
+                var loops = seatArea[i].match(reg)
+                var NotLoop = seatArea[i].replace(reg,'').replace(':','').replace(areaName,'')
+                var startNo = seatObject[areaName].startNo
+                var endNo = seatObject[areaName].endNo
+                console.log(areaName + i);
+                /**
+                 *匹配完之后的样子
+                 *  [1,2,2]
+                 */
+                console.log(loops);
+                if(loops != null){
+                    for(var j = 0;j < loops.length; j ++) {
+                        var nums = loops[j].split(/\[|,|\]/g)
+                        nums = nums.filter((item)=>{return item != ''})
+                        console.log(nums)
+                        if (nums.length != 3) {
+                            swal('填写错误,请重新填写')
+                            return;
+                        }
+                        var start =  Number.parseInt(nums[0])
+                        var end =  Number.parseInt(nums[1])
+                        var step = Number.parseInt(nums[2])
+                        if (isNaN(start) || isNaN(end) || isNaN((step))) {
+                            swal('填写错误,请重新填写')
+                            return;
+                        }
+                        start = startNo + start - 1
+                        end = startNo +end - 1
+                        end = Math.min(end,endNo)
+                        console.log(start + "_" + end);
+                        for (var k = start; k <= end; k+= step) {
+                            seatSet.add(k)
+                        }
+                        console.log(seatSet);
+                    }
+                }
+                console.log(NotLoop);
+                var seats = NotLoop.split(',')
+                seats = seats.filter((item)=>{return item != ''})
+                if(seat != null) {
+                    for(var n = 0;n < seats.length; n ++) {
+                        if(isNaN(Number.parseInt(seats[n]))) continue
+                        seatSet.add(startNo + Number.parseInt(seats[n]) - 1)
+                    }
+                }
+            }
+        }
+
+
+
+        // 处理第二个文本框 区域框
+        if (area != '') {
+            var areaStr = ['2楼东','2楼西','3楼报刊预览室','3楼报刊预览室','4楼东','4楼西','4楼中走廊','3楼东',
+                '5楼东','5楼西','6楼西','6楼东','6楼中厅','3楼西','3楼中走廊','机房']
+            var areaSet = new Set(areaStr)
+            var userAreaArr = area.split(',').filter(item=>item)
+
+            if ((userAreaArr.filter((item)=> {
+                return areaSet.has(item)
+            })).length !== userAreaArr.length) {
+                swal('区域填写有误')
+                return
+            }
+        }
+
+        if(check) {
+            $.ajax({
+                type: "post",
+                url: '/user/save',
+                dataType: 'json',
+                data: {
+                    date: date
+                },
+                success: (data)=>{
+                    if(data.code === '1') {
+                        swal('请求成功')
+                    } else {
+                        swal('请求失败')
+                    }
+                }
+            })
+        } else {
+            if(userAreaArr.length === 0) userAreaArr = []
+            if(seatSet === undefined || seatSet.size === 0) {
+                seatSet = [];
+                seat = ''
+            }
+            $.ajax({
+                type: "post",
+                url: '/user/save',
+                data: {
+                    area: userAreaArr,
+                    seat: Array.from(seatSet),
+                    seatStr:seat,
+                    date: date
+                },
+                success: (data)=>{
+                    if(data.code === '1') {
+                        swal('请求成功')
+                    } else {
+                        swal('请求失败')
+                    }
+                }
+            })
+        }
+    })
+</script>
+</html>

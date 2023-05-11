@@ -1,0 +1,122 @@
+segment:
+   seatMaps:
+      "[2楼东]":
+         areaId: 5
+         date: 2022/11/06
+         segment: 1439882
+         startNo: 5735
+         endNo: 5750
+      "[2楼西]":
+         areaId: 6
+         date: 2022/11/06
+         segment: 1446458
+         startNo: 7863
+         endNo: 7878
+      "[3楼报刊预览室]":
+         areaId: 7
+         date: 2022/11/06
+         segment: 1466186
+         startNo: 5767
+         endNo: 5910
+      "[4楼东]":
+         areaId: 8
+         date: 2022/11/06
+         segment: 1499066
+         startNo: 6115
+         endNo: 6230
+      "[4楼西]":
+         areaId: 9
+         date: 2022/11/06
+         segment: 1505642
+         startNo: 6231
+         endNo: 6246
+      "[4楼中走廊]":
+         areaId: 10
+         date: 2022/11/06
+         segment: 1512218
+         startNo: 6247
+         endNo: 6326
+      "[3楼东]":
+         areaId: 13
+         date: 2022/11/06
+         segment: 1472762
+         startNo: 5911
+         endNo: 6026
+      "[5楼东]":
+         areaId: 16
+         date: 2022/11/06
+         segment: 1525370
+         startNo: 6327
+         endNo: 6718
+      "[5楼西]":
+         areaId: 17
+         date: 2022/11/06
+         segment: 1531946
+         startNo: 6719
+         endNo: 6862
+      "[6楼西]":
+         areaId: 18
+         date: 2022/11/06
+         segment: 1551674
+         startNo: 7319
+         endNo: 7774
+      "[6楼东]":
+         areaId: 19
+         date: 2022/11/06
+         segment: 1558250
+         startNo: 6863
+         endNo: 7318
+      "[6楼中厅]":
+         areaId: 20
+         date: 2022/11/06
+         segment: 1564826
+         startNo: 7775
+         endNo: 7862
+      "[3楼西]":
+         areaId: 21
+         date: 2022/11/06
+         segment: 1479338
+         startNo: 6027
+         endNo: 6042
+      "[3楼中走廊]":
+         areaId: 22
+         date: 2022/11/06
+         segment: 1485914
+         startNo: 6043
+         endNo: 6114
+      "[机房]":
+         areaId: 24
+         date: 2022/11/06
+         segment: 1538522
+         startNo: 8179
+         endNo: 8277
+#     "[借还书业务]":
+#        areaId: 23
+#        date: 2022/11/06
+#        segment: 1453034
+#        startNo: 7879
+#        endNo: 8178
+spring:
+   mvc:
+      static-path-pattern: /static/**
+   datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username:
+      password:
+      url:
+   application:
+      name: QLU-Library
+
+mybatis-plus:
+   configuration:
+      type-aliases-package: com.shadowzlh.lib.pojo
+      use-generated-keys: true
+      map-underscore-to-camel-case: true
+mpp:
+   entityBasePath: com.shadowzlh.lib.pojo.po
+
+logging:
+   config: classpath:log4j2.xml
+server:
+   port: 8081

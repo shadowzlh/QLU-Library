@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <title>图书馆座位预约</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            position: relative;
+            width: 100%;
+            /* height: 100vh; */
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: center;
+            /* align-items: center; */
+            background: url(img/壁纸.jpg) no-repeat;
+            background-size: 100% 100%;
+        }
+        .login-form {
+            position: absolute;
+            top: 200px;
+            width: 450px;
+            border-radius: 20px;
+            /* background-color: aqua; */
+            /* text-align: center; */
+            background-image: linear-gradient(to right,rgba(0,0,0,0.2),rgba(0,0,0,0.2));
+        }
+        .login-form .header {
+            display: block;
+            width: 40px;
+            font-size: 20px;
+            color: skyblue;
+            margin: 10px auto 50px;
+        }
+        .login-form .input {
+            position: relative;
+            width: 310px;
+            margin: 0 auto 25px;
+            text-align: center;
+        }
+        .login-form .input input {
+            height: 35px;
+            width: 250px;
+            padding-left: 10px;
+            border: 1px solid #f2f2f2;
+            outline: none;
+            font-size: 17px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .login-form .input:nth-child(4) {
+            margin-bottom: 40px;
+        }
+        .login-form .input-submit {
+            width: 100px;
+            margin: 0 auto 10px;
+        }
+        .login-form .input-submit .login-btn {
+            width: 100px;
+            height: 30px;
+            font-size: 17px;
+            border: 1px solid #f2f2f2;
+            border-radius: 3px;
+        }
+        .login-form .input-submit .login-btn:hover {
+            background-color: skyblue;
+        }
+        /*.eye {*/
+        /*    display: block;*/
+        /*    width: 20px;*/
+        /*    height: 20px;*/
+        /*    position: absolute;*/
+        /*    top: 9px;*/
+        /*    right: 35px;*/
+        /*    background: url(img/eye.png) no-repeat;*/
+        /*    background-size: 20px auto;*/
+        /*    cursor: pointer;*/
+        /*}*/
+        /*.close-eye {*/
+        /*    display: block;*/
+        /*    width: 20px;*/
+        /*    height: 20px;*/
+        /*    position: absolute;*/
+        /*    top: 9px;*/
+        /*    right: 35px;*/
+        /*    background: url(img/eye-close.png) no-repeat;*/
+        /*    background-size: 20px auto;*/
+        /*    cursor: pointer;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<form method="post" action="user/login" class="login-form">
+    <span class="header">登录</span>
+    <div class="input">
+        <input type="text" name="username" placeholder="请输入图书馆账号" required/>
+    </div>
+    <div class="input">
+        <input type="password" name="password" placeholder="请输入图书馆密码" required>
+    </div>
+    <div class="input">
+        <input type="text" name="email" placeholder="请输入邮箱" required>
+    </div>
+    <div class="input-submit">
+        <input class="login-btn" type="submit" value="登录">
+    </div>
+</form>
+</body>
+<script>
+
+    const $eye = $('#eye')
+
+    const $form = $('form')
+
+
+    const $username = $('[name=username]').val();
+    const $email = $('[name=email]').val();
+    const $password = $('[name=password]').val();
+    $form.submit(()=> {
+        console.log($username + $password + $email)
+        $.ajax({
+            type: "post",
+            url: '/user/login',
+            dataType: 'json',
+            data: {
+                username: $('[name=username]').val(),
+                password: $('[name=password]').val(),
+                email: $('[name=email]').val()
+            },
+            success: (data)=>{
+                if(data.msg == 'Success') {
+                    const url = $(location).attr('href') + '/cfg'
+                    window.location.href = url
+                } else  {
+                    swal(data.msg)
+                }
+            }
+        })
+        return false
+    })
+
+
+</script>
+</html>
