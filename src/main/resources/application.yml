@@ -102,9 +102,9 @@ spring:
    datasource:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
-      username:
-      password:
-      url:
+      username: /* your username */
+      password: /* your password */
+      url: /* your url */
    application:
       name: QLU-Library
 
@@ -119,4 +119,4 @@ mpp:
 logging:
    config: classpath:log4j2.xml
 server:
-   port: 8081
+   port: 8080
