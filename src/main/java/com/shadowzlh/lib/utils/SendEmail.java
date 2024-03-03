@@ -19,8 +19,8 @@ public class SendEmail {
      * 前三个不可更改
      *
      * */
-    private final static String MyEmail = "zhang_liang_hong@163.com";//开启授权码的邮箱
-    private final static String AuthorizationCode = "TARLXMRZKRZSYINV";//授权码
+    private final static String MyEmail = "";//开启授权码的邮箱 输入你的邮箱
+    private final static String AuthorizationCode = "";// 输入你的授权码
     private final static String SMTPEmail = "smtp.163.com";// 网易163邮箱的 SMTP 服务器地址
 
 
