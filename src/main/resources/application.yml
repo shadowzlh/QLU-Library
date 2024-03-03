@@ -102,9 +102,9 @@ spring:
    datasource:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
-      username: /* your username */
-      password: /* your password */
-      url: /* your url */
+      username: root
+      password: 021025@Lcm
+      url: jdbc:mysql://49.235.178.224:3306/Library?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
    application:
       name: QLU-Library
 

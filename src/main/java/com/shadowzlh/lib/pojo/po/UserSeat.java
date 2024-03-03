@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("userSeat")
 public class UserSeat {
     @TableField("user_id")
     @MppMultiId

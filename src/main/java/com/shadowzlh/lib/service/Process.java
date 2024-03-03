@@ -10,7 +10,6 @@ import com.shadowzlh.lib.pojo.po.UserSeat;
 import com.shadowzlh.lib.utils.Convert;
 import com.shadowzlh.lib.utils.Day;
 import com.shadowzlh.lib.utils.OrderThread;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +97,7 @@ public class Process {
         }
     }
 
-    @Scheduled(cron = "0 30 6 * * *")
+    @Scheduled(cron = "0 20 6 * * *")
     public void end() {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
         Thread[] threads = new Thread[Thread.activeCount()];

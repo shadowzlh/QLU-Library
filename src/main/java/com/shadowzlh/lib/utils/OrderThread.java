@@ -22,7 +22,7 @@ public class OrderThread extends Thread{
                 String segment = User.getSegment(areaName, user.getDates().get(0));
                 if (Book.successBook(user, url, segment)) {
                     SendEmail.sendEmail(
-                            "你已成功预定" + areaName + "_" + AreaInfo.getSeatNo(seat) + "(座位号为系统算出, 不准确, 建议查看预约系统确认)"
+                            "你已成功预定" + user.getDates().get(0) + "_" + areaName + "_" + AreaInfo.getSeatNo(seat) + "(座位号为系统算出, 不准确, 建议查看预约系统确认)"
                             , user.getEmail());
                     return;
                 } else {
@@ -40,7 +40,7 @@ public class OrderThread extends Thread{
                     String segment = User.getSegment(area,user.getDates().get(0));
                     if (Book.successBook(user,url,segment)) {
                         SendEmail.sendEmail(
-                                "你已成功预定" + area + "_" +String.format("%03d",(i - startNo + 1)) + "(座位号为系统算出, 不准确, 建议查看预约系统确认)"
+                                "你已成功预定"  + user.getDates().get(0) + "_" + area + "_" +String.format("%03d",(i - startNo + 1)) + "(座位号为系统算出, 不准确, 建议查看预约系统确认)"
                                 ,user.getEmail());
                         return;
                     } else {
@@ -60,7 +60,7 @@ public class OrderThread extends Thread{
                 String segment = User.getSegment(area,user.getDates().get(0));
                 if (Book.successBook(user,url,segment)) {
                     SendEmail.sendEmail(
-                            "你已成功预定" + area + "_" +String.format("%03d",(i - startNo + 1)) + "(座位号为系统算出, 不准确, 建议查看预约系统确认)"
+                            "你已成功预定"  + user.getDates().get(0)  + "_" + area + "_" +String.format("%03d",(i - startNo + 1)) + "(座位号为系统算出, 不准确, 建议查看预约系统确认)"
                             ,user.getEmail());
                     return;
                 } else {

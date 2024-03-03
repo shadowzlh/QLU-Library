@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("userArea")
 public class UserArea {
     //userid
     @TableField("user_id")
