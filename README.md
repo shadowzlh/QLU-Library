@@ -9,7 +9,8 @@ you can get the page like this
 
 
 keep in mind:
-- this Project use `tessdata` to pass verification code, So please change the `languagePath` in Constants.java
+- ~~this Project use `tessdata` to pass verification code, So please change the `languagePath` in Constants.java~~
+- already replace the login api, so you don't need to set the tessdata 
   
 
   英文纯属写着玩的
